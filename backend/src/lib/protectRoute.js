@@ -2,6 +2,7 @@ import User from "../models/auth.model.js";
 import { jwtSecret } from "./jwtVerify.js";
 import jwt from "jsonwebtoken";
 
+// checking if the user is present or not
 export const protectRoute = async (req, res, next) => {
   try {
     const token = req.cookies.token;

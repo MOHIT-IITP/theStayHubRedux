@@ -21,6 +21,7 @@ const LoginPage = () => {
   };
 
   const validateForm = () => {
+    if(!formData.email || !formData.password) return toast.error("All fields are required");
     if (!formData.email.trim()) return toast.error("Email is Required");
     if (!formData.password) return toast.error("Password is Required");
     return true;

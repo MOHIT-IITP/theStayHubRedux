@@ -6,12 +6,6 @@ export const handleLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    //  validating the email and password
-    if (!email || !password) {
-      return res
-        .status(400)
-        .json({ messages: "Email and Password is required" });
-    }
     // checking if user exist or not
     const user = await User.findOne({ email });
 
@@ -41,10 +35,6 @@ export const handleSignUp = async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
 
-    // validation input fields
-    if (!fullName || !email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
     // checking if the user exits in the db or not
     const user = await User.findOne({ email });
     if (user) return res.status(400).json({ message: "user already exists" });

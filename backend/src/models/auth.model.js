@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   fullName: {
@@ -14,6 +14,18 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+    places: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "PlaceModel",
+        }
+    ],
+    bookings: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "BookingModel",
+        }
+    ]
 });
 
 const User = mongoose.model("user", UserSchema);

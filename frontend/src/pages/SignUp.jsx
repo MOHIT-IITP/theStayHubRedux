@@ -38,6 +38,7 @@ const SignUpPage = () => {
   };
 
   const validateForm = () => {
+    if(!formData.email || !formData.password) return toast.error("All Fields are required");
     if (!formData.email.trim()) return toast.error("Email is Required");
     if (!formData.password) return toast.error("Password is Required");
     if (!formData.fullName.trim()) return toast.error("FullName is Required");

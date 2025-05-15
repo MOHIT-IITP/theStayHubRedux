@@ -2,6 +2,7 @@ import express from "express";
 const app = express();
 import mongoose from "mongoose";
 import AuthRouter from "./routes/auth.route.js";
+import PlaceRouter from "./routes/place.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -22,6 +23,7 @@ app.use(
 connectDatabase();
 
 app.use("/auth", AuthRouter);
+app.use("/", PlaceRouter);
 
 // after you complete backend then delete this get route
 app.get("/", (req, res) => {

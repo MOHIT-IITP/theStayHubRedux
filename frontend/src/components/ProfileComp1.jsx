@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 const ProfileComp1 = () => {
     function linkClasses(){
-        let classes="border-b-amber-200 px-10 py-2 font-semibold border-2 rounded-full bg-green-300 text-black";
+        let classes="border-neutral-800 px-10 py-2 font-semibold border-2 rounded-full bg-green-300 text-black";
         return classes;
     }
     return (

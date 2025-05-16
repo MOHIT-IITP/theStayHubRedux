@@ -7,7 +7,6 @@ const initialState = {
     error: null,
 }
 
-// you can also check that user is present or not 
 
 export const addplace = createAsyncThunk(
     "/addplace",
@@ -23,13 +22,27 @@ export const addplace = createAsyncThunk(
 )
 
 export const showPlaces = createAsyncThunk(
-    "/showplaces",
-    async({rejectWithValue})=>{
+    "/user",
+    async(_, {rejectWithValue})=>{
         try {
             const res = await axiosInstance.get('/showplaces');
+            console.log(res.data);
             return res.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || "Show places Failed");
+        }
+    }
+)
+
+export const deletePlace = createAsyncThunk(
+    "/deleteplace",
+    async(placeid, {rejectWithValue}) => {
+        try {
+            await axiosInstance.post(`/deleteplace/${placeid}`)
+            toast.success("Hotel Deleted Successfully")
+            return placeid;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || "Delete Failed");
         }
     }
 )
@@ -57,19 +70,26 @@ export const placeSlice = createSlice({
             state.error = null;
         })
         .addCase(showPlaces.fulfilled, (state, action)=>{
-            console.log(action);
             state.isLoading = false;
-            state.place = action.payload;
+            // done this because i have to populate the existing user with place detail
+            console.log("this is action payload from auth slice",action.payload);
+            state.placeSlice = action.payload;
         })
         .addCase(showPlaces.rejected, (state, action) =>{
-            state.error = action.payload;
             state.isLoading = false;
+            state.error = action.payload;
         })
+        .addCase(deletePlace.fulfilled, (state, action)=>{
+                // here we are removing the place from the user redux 
+                state.place.places.places = state.user.places.places.filter(
+                    (place) => place._id !== action.payload
+                );
+        });
     }
 })
 
 export default placeSlice.reducer;
-export const selectPlace = (state) => state.placeSlice.place; 
+export const selectPlace = (state) => state.placeSlice; 
 export const selectIsLoading = (state) => state.placeSlice.isLoading;
 
 

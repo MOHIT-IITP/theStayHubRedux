@@ -143,8 +143,7 @@ export const updatePlace = async (req, res) => {
 export const getPlace = async (req, res) => {
     try {
         const { id: placeId } = req.params; // Consistent naming
-        const place = await PlaceModel.findById(placeId)
-            .select('-__v -createdAt -updatedAt'); // Exclude unnecessary fields
+        const place = await PlaceModel.findById(placeId).select('-__v -createdAt -updatedAt'); // Exclude unnecessary fields
 
         if (!place) {
             return res.status(404).json({ message: "Place not found" }); // Correct 404 status
@@ -157,3 +156,14 @@ export const getPlace = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
+
+export const getAllPlace = async(req, res) => {
+    try {
+        const placeData = await PlaceModel.find();
+        res.json(placeData);
+    } catch (error) {
+        console.log("Error in get all place controller");
+        return res.status(500).json({message: "Internal Server Error"});
+    }
+}

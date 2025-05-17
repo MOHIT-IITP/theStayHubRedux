@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom"; 
 import { editPlace } from "../features/auth/authSlice";
-import axios from "axios";
 import { axiosInstance } from "../lib/axiosInstance";
 
 const EditPlace = () => {
@@ -34,7 +33,7 @@ const EditPlace = () => {
     }, [id])
 
     const dispatch = useDispatch();
-    const navigate = useNavigate(); // <-- use this
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData({
@@ -43,126 +42,133 @@ const EditPlace = () => {
         });
     };
 
-
-const handleFormUpdate = async (e) => {
-    e.preventDefault();
-    try {
-        await dispatch(editPlace({ placeid: id, formData })).unwrap();
-        toast.success("Hotel edited successfully!");
-        navigate('/place');
-    } catch (error) {
-        toast.error(error.message || "Edit failed");
-    }
-};
+    const handleFormUpdate = async (e) => {
+        e.preventDefault();
+        try {
+            await dispatch(editPlace({ placeid: id, formData })).unwrap();
+            toast.success("Hotel edited successfully!");
+            navigate('/place');
+        } catch (error) {
+            toast.error(error.message || "Edit failed");
+        }
+    };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-8 px-4">
-            <form onSubmit={handleFormUpdate} className="form-card">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">Hotel Information</h2>
-                <div className="space-y-4">
+        <div className="min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200 py-12 px-4 flex items-center justify-center">
+            <form 
+                onSubmit={handleFormUpdate} 
+                className="max-w-2xl w-full backdrop-blur-xl bg-white/60 border border-blue-100 rounded-3xl shadow-xl p-8"
+            >
+                <h2 className="text-3xl font-bold text-blue-900 mb-6 text-center drop-shadow">
+                    Edit Hotel Listing
+                </h2>
+                <div className="space-y-6">
                     <div>
-                        <label className="label-style">Name of the Hotel</label>
+                        <label className="block text-gray-700 font-semibold mb-2">Name of the Hotel</label>
                         <input
                             name="title"
                             placeholder="Title"
                             value={formData.title}
                             onChange={handleChange}
                             type="text"
-                            className="input-style"
+                            className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
                         />
                     </div>
                     <div>
-                        <label className="label-style">Address</label>
+                        <label className="block text-gray-700 font-semibold mb-2">Address</label>
                         <input
                             name="address"
                             placeholder="e.g. Times Square, New York"
                             value={formData.address}
                             onChange={handleChange}
                             type="text"
-                            className="input-style"
+                            className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
                         />
                     </div>
                     <div>
-                        <label className="label-style">Description</label>
+                        <label className="block text-gray-700 font-semibold mb-2">Description</label>
                         <input
                             name="description"
                             type="text"
                             placeholder="Description of the hotel"
                             value={formData.description}
                             onChange={handleChange}
-                            className="input-style"
+                            className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
                         />
                     </div>
                     <div>
-                        <label className="label-style">Perks</label>
+                        <label className="block text-gray-700 font-semibold mb-2">Perks</label>
                         <input
                             name="perks"
                             type="text"
                             placeholder="Perks of the hotel"
                             value={formData.perks}
                             onChange={handleChange}
-                            className="input-style"
+                            className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
                         />
                     </div>
                     <div>
-                        <label className="label-style">Extra Info (Hotel)</label>
+                        <label className="block text-gray-700 font-semibold mb-2">Extra Info (Hotel)</label>
                         <input
                             name="extraInfo"
                             placeholder="Extra info here"
                             value={formData.extraInfo}
                             onChange={handleChange}
                             type="text"
-                            className="input-style"
+                            className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
                         />
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label className="label-style">Check-in</label>
+                            <label className="block text-gray-700 font-semibold mb-2">Check-in</label>
                             <input
                                 name="checkIn"
                                 placeholder="Check-in time"
                                 value={formData.checkIn}
                                 onChange={handleChange}
                                 type="number"
-                                className="input-style"
+                                className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
                             />
                         </div>
                         <div>
-                            <label className="label-style">Check-out</label>
+                            <label className="block text-gray-700 font-semibold mb-2">Check-out</label>
                             <input
                                 name="checkOut"
                                 placeholder="Check-out time"
                                 value={formData.checkOut}
                                 onChange={handleChange}
                                 type="number"
-                                className="input-style"
+                                className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
                             />
                         </div>
                         <div>
-                            <label className="label-style">Max Guests</label>
+                            <label className="block text-gray-700 font-semibold mb-2">Max Guests</label>
                             <input
                                 name="maxGuests"
                                 placeholder="1"
                                 value={formData.maxGuests}
                                 onChange={handleChange}
                                 type="number"
-                                className="input-style"
+                                className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
                             />
                         </div>
                         <div>
-                            <label className="label-style">Price</label>
+                            <label className="block text-gray-700 font-semibold mb-2">Price</label>
                             <input
                                 name="price"
                                 placeholder="2999"
                                 value={formData.price}
                                 onChange={handleChange}
                                 type="number"
-                                className="input-style"
+                                className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
                             />
                         </div>
                     </div>
                 </div>
-                <button type="submit" className="submit-btn mt-4">
+                <button 
+                    type="submit" 
+                    className="w-full mt-8 py-3 px-6 bg-gradient-to-r from-blue-400 to-violet-500 hover:from-blue-500 hover:to-violet-600 text-white rounded-xl transition-all duration-300 font-semibold shadow hover:shadow-lg"
+                >
                     Edit  
                 </button>
             </form>

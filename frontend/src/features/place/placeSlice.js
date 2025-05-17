@@ -20,6 +20,29 @@ export const addplace = createAsyncThunk(
     }
 )
 
+export const placeinfo = createAsyncThunk(
+    "/hotelpage",
+    async(placeid, {rejectWithValue}) => {
+        try {
+            const res =  await axiosInstance.get(`/places/${placeid}`);
+            return res.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || "Getting hotel info Failed");
+        }
+    }
+)
+export const getplace = createAsyncThunk(
+    "/place",
+    async(_, {rejectWithValue}) => {
+        try {
+            const res = await axiosInstance.get('/place');
+            return res.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || "Get all hotel info Failed");
+        }
+    }
+)
+
 export const placeSlice = createSlice({
     name: "placeSlice",
     initialState,
@@ -36,13 +59,40 @@ export const placeSlice = createSlice({
         .addCase(addplace.rejected, (state, action)=>{
             state.error= action.payload;
             state.isLoading = false;
+        })
+        .addCase(placeinfo.pending, (state)=>{
+                state.isLoading = true;
+                state.error = null;
+        })
+        .addCase(placeinfo.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.place = action.payload;
+        })
+        .addCase(placeinfo.rejected, (state) => {
+                state.isLoading = false;
+                state.error = action.payload; 
+        })
+        .addCase(getplace.pending, (state) => {
+                state.isLoading = true;
+                state.error =  false;
+        })
+        .addCase(getplace.fulfilled, (state, action) => {
+                state.place = action.payload;
+                state.isLoading = false;
+                state.error = null;
+        })
+        .addCase(getplace.rejected, (state) => {
+                state.isLoading = false;
+                state.error = action.payload;
         });
+
     }
 })
 
+
 export default placeSlice.reducer;
-export const selectPlace = (state) => state.placeSlice; 
-export const selectIsLoading = (state) => state.placeSlice.isLoading;
+export const selectPlace = (state) => state.place; 
+export const selectIsLoading = (state) => state.place.isLoading;
 
 
 

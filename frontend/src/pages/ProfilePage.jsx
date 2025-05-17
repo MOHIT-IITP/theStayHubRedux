@@ -21,13 +21,13 @@ const ProfilePage = () => {
                         <div className="flex flex-col items-center">
                             <span className="font-semibold text-gray-700">User Fullname:</span>
                             <span className="text-lg text-violet-700 font-medium mt-1">
-                                {user ? user.fullName : <span className="text-red-500">User fullname not found</span>}
+                                {user ? user?.fullName : <span className="text-red-500">User fullname not found</span>}
                             </span>
                         </div>
                         <div className="flex flex-col items-center">
                             <span className="font-semibold text-gray-700">User Email:</span>
                             <span className="text-lg text-violet-700 font-medium mt-1">
-                                {user ? user.email : <span className="text-red-500">User email not found</span>}
+                                {user ? user?.email : <span className="text-red-500">User email not found</span>}
                             </span>
                         </div>
                         <button

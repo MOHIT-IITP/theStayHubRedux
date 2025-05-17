@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const HomePage = () => {
     const user = useSelector(selectUser);
-    const { isLoading } = useSelector((state) => state.auth);
+    const { isLoading } = useSelector((state) => state.place);
     const places = useSelector((state) => state.place.place); // <-- assuming this is your array
     const dispatch = useDispatch();
 
@@ -19,14 +19,17 @@ const HomePage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200 py-12 px-4">
+        <div className="overflow-hidden min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200 py-12 px-4">
             <div className="max-w-7xl mx-auto">
                 <h1 className="text-4xl font-bold text-blue-900 mb-8 text-center drop-shadow">
                     Welcome to the Home Page
                 </h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                    {places && places.length > 0 ? (
-                        places.map((place) => (
+                    {isLoading && 
+                        <p>Loading</p>
+                    }
+                    {places && places?.length > 0 ? (
+                        places?.map((place) => (
                             <Link
                                 to={`/hotelpage/${place._id}`}
                                 key={place._id}

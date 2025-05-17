@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const jwtSecret = process.env.JWT_SECRET;
-console.log("jwtsecret", jwtSecret);
 
 // checking if the user is present or not
 export const protectRoute = async (req, res, next) => {

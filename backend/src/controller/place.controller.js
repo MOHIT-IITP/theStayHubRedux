@@ -1,41 +1,58 @@
 import User from "../models/auth.model.js";
 import PlaceModel from "../models/place.model.js";
 
-export const handleAddPlace = async( req,res)=>{
+
+export const handleAddPlace = async (req, res) => {
     try {
-        const {title, address, description, perks, extraInfo, checkIn, checkOut, maxGuests, price} = req.body;
-        const userOwner = req.user;
-
-        // checking if the user is present or not
-        console.log(userOwner.fullName);
-        if(!userOwner){
-            return res.status(400).json({message: "User is not present Login First"});
-        }
-
-        const newPlace = new PlaceModel({
-            owner: userOwner._id,
-            title, 
-            address, 
+        const {
+            title,
+            address,
             description,
             perks,
             extraInfo,
             checkIn,
             checkOut,
             maxGuests,
-            price,
+            price
+        } = req.body;
+
+        const userOwner = req.user;
+
+        if (!userOwner) {
+            return res.status(400).json({ message: "User is not present. Login first." });
+        }
+
+        const newPlace = new PlaceModel({
+            owner: userOwner._id,
+            title,
+            address,
+            description,
+            perks,
+            extraInfo,
+            checkIn,
+            checkOut,
+            maxGuests,
+            price
         });
+
         await newPlace.save();
 
-        // adding the hotel id to the user 
-        const Updateuser = await User.findByIdAndUpdate(userOwner._id, {$push: {places: newPlace._id}});
-        res.json(Updateuser);
+        // Add the place ID to the user's document
+        await User.findByIdAndUpdate(
+            userOwner._id,
+            { $push: { places: newPlace._id } },
+            { new: true } // optional: return the updated user if needed
+        );
+
+        // Send back the newly created place
         res.json(newPlace);
-        console.log(newPlace);
+
     } catch (error) {
-        console.log("Error in handleAddPlace controller");
-        res.status(500).json({error: "Internal Server Error"});
+        console.error("Error in handleAddPlace controller:", error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
-}
+};
+
 
 export const showPlaces = async(req, res) => {
     try {
@@ -70,8 +87,10 @@ export const deletePlaces = async(req, res) => {
 }
 
 
-export const updatePlace = async(req, res) => {
+// Update Place Controller
+export const updatePlace = async (req, res) => {
     try {
+        const { id: placeId } = req.params; 
         const {
             title,
             address,
@@ -83,35 +102,58 @@ export const updatePlace = async(req, res) => {
             maxGuests,
             price,
         } = req.body;
-        const placeid = req.params;
-        const userid = req.user._id;
 
-        const checkPlace = await PlaceModel.findById(placeid);
-        if(!checkPlace){
-            return res.status(400).json({message: "Place not found"});
+        // Validation: Check required fields
+        if (!title || !address || !description || !price) {
+            return res.status(400).json({ message: "Missing required fields" });
         }
 
-        const updatedPlace = await PlaceModel.findOneAndUpdate({_id: placeid, owner:userid}, {
-            $set: {
-                title, 
-                address,
-                description,
-                perks: perks.split(','),
-                extraInfo,
-                checkIn,
-                checkOut,
-                maxGuests,
-                price,
-            }
-        }, {new: true, runValidators: true});
+        // Update and validate in single query
+        const updatedPlace = await PlaceModel.findOneAndUpdate(
+            { _id: placeId },
+            {
+                $set: {
+                    title,
+                    address,
+                    description,
+                    perks,
+                    extraInfo,
+                    checkIn,
+                    checkOut,
+                    maxGuests,
+                    price,
+                }
+            },
+            { new: true, runValidators: true }
+        );
 
-        if(!updatedPlace){
-            return res.status(400).json({message: "Place not found or unauthorized"});
+        if (!updatedPlace) {
+            return res.status(404).json({ message: "Place not found or unauthorized" }); // Proper 404
         }
-        res.json({message: "Place updated Successfully", place: updatedPlace});
+
+        res.json({ message: "Place updated successfully", place: updatedPlace });
 
     } catch (error) {
-        console.log("Error in update place controller");
-        return res.status(500).json(error.message);
+        console.error("Update error:", error);
+        res.status(500).json({ message: "Internal server error" }); // Generic message for production
     }
-}
+};
+
+// Get Single Place Controller
+export const getPlace = async (req, res) => {
+    try {
+        const { id: placeId } = req.params; // Consistent naming
+        const place = await PlaceModel.findById(placeId)
+            .select('-__v -createdAt -updatedAt'); // Exclude unnecessary fields
+
+        if (!place) {
+            return res.status(404).json({ message: "Place not found" }); // Correct 404 status
+        }
+
+        res.json(place);
+
+    } catch (error) {
+        console.error("Get place error:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};

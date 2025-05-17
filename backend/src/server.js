@@ -5,8 +5,8 @@ import AuthRouter from "./routes/auth.route.js";
 import PlaceRouter from "./routes/place.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import dotenv from "dotenv";
 import { connectDatabase } from "./lib/connectdb.js";
+import dotenv from "dotenv";
 dotenv.config();
 
 const PORT = process.env.PORT; 

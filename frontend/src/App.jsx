@@ -10,8 +10,8 @@ import { checkAuth, selectUser } from "./features/auth/authSlice";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import BookingPage from "./components/BookingPage.jsx";
 import AddPlace from "./components/AddPlace.jsx";
-import BookingForm from "./components/BookingForm.jsx";
 import PlaceForm from "./components/PlaceForm.jsx";
+import EditPlace from "./components/EditPlace.jsx";
 const App = () => {
     const user = useSelector(selectUser);
     const dispatch = useDispatch();
@@ -53,6 +53,10 @@ const App = () => {
                     <Route
                         path="/form"
                         element={!user ? <LoginPage /> : <PlaceForm/>}
+                    />
+                    <Route
+                        path="/editplace/:id"
+                        element={!user ? <LoginPage /> : <EditPlace/>}
                     />
                 </Route>
 

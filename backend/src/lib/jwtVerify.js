@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
-export const jwtSecret = "2342l23$@#$@#$!@#D@#$SD@#$";
 export const genAuthToken = async (UserId, res) => {
-  const token = jwt.sign({ UserId }, jwtSecret, {
+  const token = jwt.sign({ UserId }, process.env.JWT_SECRET, {
     expiresIn: "7d",
   });
   res.cookie("token", token, {

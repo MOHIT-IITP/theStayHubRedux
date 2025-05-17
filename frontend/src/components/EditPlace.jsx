@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addplace } from "../features/place/placeSlice";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate, useParams } from "react-router-dom"; 
+import { editPlace } from "../features/auth/authSlice";
+import axios from "axios";
+import { axiosInstance } from "../lib/axiosInstance";
 
-const PlaceForm = () => {
+const EditPlace = () => {
+    const {id} = useParams();
     const [formData, setFormData] = useState({
         title: "",
         address: "",
@@ -16,6 +19,19 @@ const PlaceForm = () => {
         maxGuests: "",
         price: "",
     });
+    useEffect(() => {
+        const fetchData = async(req) => {
+            try {
+                const res = await axiosInstance.get(`/places/${id}`);
+                setFormData({
+                    ...res.data,
+                })
+            } catch (error) {
+                console.log("Error in fetching place")
+            }
+        }
+        fetchData();
+    }, [id])
 
     const dispatch = useDispatch();
     const navigate = useNavigate(); // <-- use this
@@ -27,49 +43,21 @@ const PlaceForm = () => {
         });
     };
 
-    const validateForm = () => {
-        if (!formData.title.trim()) return toast.error("Title is required");
-        if (!formData.address.trim()) return toast.error("Address is required");
-        if (!formData.description.trim()) return toast.error("Description is required");
-        if (!formData.perks.trim()) return toast.error("Perks is required");
-        if (!formData.extraInfo.trim()) return toast.error("Extra Info is required");
-        if (!formData.checkIn.toString().trim()) return toast.error("Check-in time is required");
-        if (!formData.checkOut.toString().trim()) return toast.error("Check-out time is required");
-        if (!formData.maxGuests.toString().trim()) return toast.error("Max guests is required");
-        if (!formData.price.toString().trim()) return toast.error("Price is required");
 
-        return true;
-    };
-
-    const handleFormSubmit = async (e) => {
-        e.preventDefault();
-        if (validateForm()) {
-            try {
-                await dispatch(addplace(formData)).unwrap();
-                toast.success("Hotel added successfully!");
-                setFormData({
-                    title: "",
-                    address: "",
-                    description: "",
-                    perks: "",
-                    extraInfo: "",
-                    checkIn: "",
-                    checkOut: "",
-                    maxGuests: "",
-                    price: "",
-                });
-                navigate('/place'); // <-- use navigate here
-            } catch (error) {
-                toast.error("Failed to add hotel");
-            }
-        } else {
-            toast.error("handle Place Failed");
-        }
-    };
+const handleFormUpdate = async (e) => {
+    e.preventDefault();
+    try {
+        await dispatch(editPlace({ placeid: id, formData })).unwrap();
+        toast.success("Hotel edited successfully!");
+        navigate('/place');
+    } catch (error) {
+        toast.error(error.message || "Edit failed");
+    }
+};
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-8 px-4">
-            <form onSubmit={handleFormSubmit} className="form-card">
+            <form onSubmit={handleFormUpdate} className="form-card">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">Hotel Information</h2>
                 <div className="space-y-4">
                     <div>
@@ -175,11 +163,11 @@ const PlaceForm = () => {
                     </div>
                 </div>
                 <button type="submit" className="submit-btn mt-4">
-                    Submit
+                    Edit  
                 </button>
             </form>
         </div>
     );
 };
 
-export default PlaceForm;
+export default EditPlace;

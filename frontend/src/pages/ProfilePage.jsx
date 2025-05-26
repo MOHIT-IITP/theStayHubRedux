@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { logoutThunk, selectUser } from "../features/auth/authSlice"
 import ProfileComp1 from "../components/ProfileComp1";
+import { use } from "react";
 
 const ProfilePage = () => {
     const user = useSelector(selectUser);
@@ -28,6 +29,15 @@ const ProfilePage = () => {
                             <span className="font-semibold text-gray-700">User Email:</span>
                             <span className="text-lg text-violet-700 font-medium mt-1">
                                 {user ? user?.email : <span className="text-red-500">User email not found</span>}
+                            </span>
+                            <span>
+                                {user ? (
+                                    <span className="text-sm text-gray-500 mt-1">
+                                        User Role: {user?.role}
+                                    </span>
+                                ) : (
+                                    <span className="text-red-500 text-sm mt-1">User role not found</span>
+                                )}
                             </span>
                         </div>
                         <button

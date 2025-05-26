@@ -10,6 +10,11 @@ const bookingSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User',
+  },
   title: {
     type: String,
     required: true,
@@ -34,6 +39,11 @@ const bookingSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  status: {
+    type: String,
+    enum: ['pending', 'accepted', 'rejected'],
+    default: 'pending',
+  }
 });
 
 const BookingModel = mongoose.model("BookingModel", bookingSchema);

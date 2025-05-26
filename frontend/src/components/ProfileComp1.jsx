@@ -1,6 +1,9 @@
+import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { selectUser } from "../features/auth/authSlice";
 
 const ProfileComp1 = () => {
+    const user = useSelector(selectUser);
     const location = useLocation();
 
     function linkClasses(path) {
@@ -24,12 +27,21 @@ const ProfileComp1 = () => {
             <Link to="/profile" className={linkClasses("/profile")}>
                 Profile
             </Link>
-            <Link to="/booking" className={linkClasses("/booking")}>
-                Bookings
-            </Link>
-            <Link to="/place" className={linkClasses("/place")}>
-                Add Place
-            </Link>
+            {user?.role === "user" && (
+                <Link to="/booking" className={linkClasses("/booking")}>
+                    Bookings
+                </Link>
+            )}
+            {user?.role === "admin" && (
+                <Link to="/bookingReq" className={linkClasses("/booking")}>
+                    Bookings Request
+                </Link>
+            )}
+            {user?.role !== "user" && (
+                <Link to="/place" className={linkClasses("/place")}>
+                    Add Place
+                </Link>
+            )}
         </div>
     );
 };

@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 
 export const handleLogin = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password  } = req.body;
 
     // checking if user exist or not
     const user = await User.findOne({ email });
@@ -24,6 +24,7 @@ export const handleLogin = async (req, res) => {
       id: user._id,
       fullName: user.fullName,
       email: user.email,
+      role: user.role,
     });
   } catch (error) {
     console.log("Error in Login controller");
@@ -33,7 +34,7 @@ export const handleLogin = async (req, res) => {
 
 export const handleSignUp = async (req, res) => {
   try {
-    const { fullName, email, password } = req.body;
+    const { fullName, email, password, role } = req.body;
 
     // checking if the user exits in the db or not
     const user = await User.findOne({ email });
@@ -48,6 +49,7 @@ export const handleSignUp = async (req, res) => {
       fullName,
       email,
       password: hashedPass,
+      role: role || "user", 
     });
 
     await newUser.save();
@@ -57,6 +59,7 @@ export const handleSignUp = async (req, res) => {
       id: newUser._id,
       fullName: newUser.fullName,
       email: newUser.email,
+      role: newUser.role,
     });
   } catch (error) {
     console.log("SignUp controller error ");

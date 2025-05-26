@@ -19,6 +19,7 @@ const AddPlace = () => {
     };
 
     return (
+        user.role === "admin" ? (
         <div className="min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200 p-6 pt-12">
             <ProfileComp1 />
             <div className="flex flex-col justify-center items-center my-10">
@@ -74,6 +75,16 @@ const AddPlace = () => {
                 </div>
             </div>
         </div>
+        ): (
+            <div>
+            user is not admin
+            <Link to={"/profile"}>
+                <button className="border-2 border-blue-200 px-10 py-2 rounded-full bg-white/70 text-blue-900 font-semibold hover:bg-blue-100 hover:text-violet-700 transition duration-300 shadow">
+                    Go to Profile
+                </button>
+            </Link>
+            </div>
+        )
     );
 };
 

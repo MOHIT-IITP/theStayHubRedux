@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleBooking } from "../features/auth/authSlice";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const BookingForm = () => {
     const {id} =  useParams();
@@ -9,6 +10,7 @@ const BookingForm = () => {
     const place = useSelector((state) => state.place.place)
 
     const [formData, setFormData] = useState({
+        owner: "",
         title: "",
         checkIn: "",
         checkOut: "",
@@ -16,6 +18,15 @@ const BookingForm = () => {
         phone: "",
         price: "",
     });
+
+    // Sync formData.title with place.title
+    useEffect(() => {
+        setFormData((prev) => ({
+            ...prev,
+            owner: place?.owner || "",
+            title: place?.title || "",
+        }));
+    }, [place?.title]);
 
     // Calculate price based on date difference
     useEffect(() => {
@@ -50,18 +61,21 @@ const BookingForm = () => {
         return true;
     };
 
+    const navigate = useNavigate();
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-            dispatch(handleBooking({placeid: id, formData}));
+            dispatch(handleBooking({ placeid: id, formData }));
             setFormData({
-                title: place.title,
+                title: place.title || "",
                 checkIn: "",
                 checkOut: "",
                 name: "",
                 phone: "",
                 price: "",
-            })
+            });
+            navigate("/");
         }
     };
 
@@ -70,18 +84,18 @@ const BookingForm = () => {
             <h2 className="text-2xl font-bold text-violet-800 mb-6 text-center">Book Your Stay</h2>
             <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                    <label htmlFor="checkIn" className="block text-sm font-medium text-gray-700 mb-1">
-                        title
+                    <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+                        Title
                     </label>
                     <input
-                        type="name"
+                        type="text"
                         id="title"
                         name="title"
-                        value={place.title}
+                        value={formData.title}
                         readOnly
-                        disabled
-                        className="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-300 outline-none"
+                        className="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-300 outline-none bg-gray-100 cursor-not-allowed"
                         required
+                        placeholder="Place title"
                     />
                 </div>
                 <div>

@@ -7,6 +7,7 @@ export const handleAddPlace = async (req, res) => {
         const {
             title,
             address,
+            addedPhotos,
             description,
             perks,
             extraInfo,
@@ -26,6 +27,7 @@ export const handleAddPlace = async (req, res) => {
             owner: userOwner._id,
             title,
             address,
+            photos: addedPhotos, 
             description,
             perks,
             extraInfo,
@@ -101,6 +103,7 @@ export const updatePlace = async (req, res) => {
             checkOut,
             maxGuests,
             price,
+            addedPhotos // <-- get addedPhotos from req.body
         } = req.body;
 
         // Validation: Check required fields
@@ -122,6 +125,7 @@ export const updatePlace = async (req, res) => {
                     checkOut,
                     maxGuests,
                     price,
+                    photos: addedPhotos // <-- update photos field
                 }
             },
             { new: true, runValidators: true }
@@ -167,3 +171,5 @@ export const getAllPlace = async(req, res) => {
         return res.status(500).json({message: "Internal Server Error"});
     }
 }
+
+

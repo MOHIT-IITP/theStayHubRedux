@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom"; 
 import { editPlace } from "../features/auth/authSlice";
 import { axiosInstance } from "../lib/axiosInstance";
+import PhotosUploader from "./PhotoUploader";
 
 const EditPlace = () => {
     const {id} = useParams();
@@ -17,14 +18,16 @@ const EditPlace = () => {
         checkOut: "",
         maxGuests: "",
         price: "",
+        addedPhotos: [],
     });
     useEffect(() => {
-        const fetchData = async(req) => {
+        const fetchData = async () => {
             try {
                 const res = await axiosInstance.get(`/places/${id}`);
                 setFormData({
                     ...res.data,
-                })
+                    addedPhotos: res.data.photos || [], // Ensure addedPhotos is set from backend photos
+                });
             } catch (error) {
                 console.log("Error in fetching place")
             }
@@ -164,6 +167,13 @@ const EditPlace = () => {
                             />
                         </div>
                     </div>
+                    <div>
+                    <label className="block text-gray-700 font-semibold mb-2">Photos</label>
+                    <PhotosUploader
+                        addedPhotos={formData.addedPhotos || []}
+                        onChange={(photos) => setFormData({ ...formData, addedPhotos: photos })}
+                    />
+                </div>
                 </div>
                 <button 
                     type="submit" 

@@ -12,6 +12,7 @@ import BookingPage from "./components/BookingPage.jsx";
 import AddPlace from "./components/AddPlace.jsx";
 import PlaceForm from "./components/PlaceForm.jsx";
 import EditPlace from "./components/EditPlace.jsx";
+import HotelPage from "./pages/HotelPage.jsx";
 const App = () => {
     const user = useSelector(selectUser);
     const dispatch = useDispatch();
@@ -57,6 +58,10 @@ const App = () => {
                     <Route
                         path="/editplace/:id"
                         element={!user ? <LoginPage /> : <EditPlace/>}
+                    />
+                    <Route
+                        path="/hotelpage/:id"
+                        element={!user ? <LoginPage /> : <HotelPage/>}
                     />
                 </Route>
 

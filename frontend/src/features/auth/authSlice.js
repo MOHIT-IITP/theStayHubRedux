@@ -33,6 +33,7 @@ export const signup = createAsyncThunk(
         }
     },
 );
+
 export const logoutThunk = createAsyncThunk(
     "/auth/logout",
     async (_, { rejectWithValue }) => {
@@ -86,6 +87,19 @@ export const deletePlace = createAsyncThunk(
     }
 )
 
+export const handleBooking = createAsyncThunk(
+    "/booking",
+    async({placeid, formData}, {rejectWithValue}) => {
+        try {
+            await axiosInstance.post(`/booking/${placeid}`, formData)
+            toast.success("Booking Successfully");
+            return placeid;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || "Booking Failed");
+        }
+    }
+)
+
 export const editPlace = createAsyncThunk(
     "/updateplace", 
     async({placeid, formData}, {rejectWithValue}) => {
@@ -97,6 +111,18 @@ export const editPlace = createAsyncThunk(
         }
     }
 )
+
+export const showBookingPlaces = createAsyncThunk(
+    "/bookingplaces",
+    async(_, {rejectWithValue}) => {
+        try {
+            const res = await axiosInstance.get('/bookings');
+            return res.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || "Show Booking Failed");
+        }
+    }
+);
 
 export const authSlice = createSlice({
     name: "auth",
@@ -194,6 +220,32 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.error = action.payload;
             })
+            .addCase(handleBooking.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(handleBooking.fulfilled, (state, action) => {
+                state.user.booking = action.payload;
+                state.isLoading = false;
+            })
+            .addCase(handleBooking.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(showBookingPlaces.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(showBookingPlaces.fulfilled, (state, action) => {
+                state.isLoading = false;
+                // Ensure user and booking are always defined
+                if (!state.user) state.user = {};
+                state.user.bookings = action.payload.bookings || action.payload;
+            })
+            .addCase(showBookingPlaces.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            });
     },
 });
 

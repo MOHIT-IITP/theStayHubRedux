@@ -7,6 +7,7 @@ export const handleAddPlace = async (req, res) => {
         const {
             title,
             address,
+            addedPhotos,
             description,
             perks,
             extraInfo,
@@ -26,6 +27,7 @@ export const handleAddPlace = async (req, res) => {
             owner: userOwner._id,
             title,
             address,
+            photos: addedPhotos, 
             description,
             perks,
             extraInfo,
@@ -101,6 +103,7 @@ export const updatePlace = async (req, res) => {
             checkOut,
             maxGuests,
             price,
+            addedPhotos // <-- get addedPhotos from req.body
         } = req.body;
 
         // Validation: Check required fields
@@ -122,6 +125,7 @@ export const updatePlace = async (req, res) => {
                     checkOut,
                     maxGuests,
                     price,
+                    photos: addedPhotos // <-- update photos field
                 }
             },
             { new: true, runValidators: true }
@@ -143,8 +147,7 @@ export const updatePlace = async (req, res) => {
 export const getPlace = async (req, res) => {
     try {
         const { id: placeId } = req.params; // Consistent naming
-        const place = await PlaceModel.findById(placeId)
-            .select('-__v -createdAt -updatedAt'); // Exclude unnecessary fields
+        const place = await PlaceModel.findById(placeId).select('-__v -createdAt -updatedAt'); // Exclude unnecessary fields
 
         if (!place) {
             return res.status(404).json({ message: "Place not found" }); // Correct 404 status
@@ -157,3 +160,16 @@ export const getPlace = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
+
+export const getAllPlace = async(req, res) => {
+    try {
+        const placeData = await PlaceModel.find();
+        res.json(placeData);
+    } catch (error) {
+        console.log("Error in get all place controller");
+        return res.status(500).json({message: "Internal Server Error"});
+    }
+}
+
+

@@ -22,6 +22,10 @@ const placeSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    photos: {
+        type: [String],
+        default: []
+    },
     extraInfo: {
         type: String,
         required: true

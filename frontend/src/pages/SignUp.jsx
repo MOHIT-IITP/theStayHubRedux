@@ -9,6 +9,7 @@ const SignUpPage = () => {
     fullName: "",
     email: "",
     password: "",
+    role: "",
   });
 
   const { isLoading } = useSelector((state) => state.auth);
@@ -40,6 +41,7 @@ const SignUpPage = () => {
   const validateForm = () => {
     if (!formData.email || !formData.password) return toast.error("All Fields are required");
     if (!formData.email.trim()) return toast.error("Email is Required");
+    if(!formData.role) return toast.error("Role is Required");
     if (!formData.password) return toast.error("Password is Required");
     if (!formData.fullName.trim()) return toast.error("FullName is Required");
     return true;
@@ -83,6 +85,20 @@ const SignUpPage = () => {
             onChange={handleChange}
             className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
           />
+
+          <select
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
+          >
+            <option value="" disabled>
+              Select Role
+            </option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+
           <button
             type="submit"
             className="w-full py-3 px-6 bg-gradient-to-r from-blue-400 to-violet-500 hover:from-blue-500 hover:to-violet-600 text-white rounded-xl transition-all duration-300 font-semibold shadow hover:shadow-lg flex items-center justify-center"

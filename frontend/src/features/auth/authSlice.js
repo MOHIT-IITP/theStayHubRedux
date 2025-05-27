@@ -86,6 +86,18 @@ export const deletePlace = createAsyncThunk(
         }
     }
 )
+export const deletebooking = createAsyncThunk(
+    "/deletebooking",
+    async(bookingid, {rejectWithValue}) => {
+        try {
+            await axiosInstance.post(`/deletebooking/${bookingid}`);
+            toast.success("Booking Deleted Successfully");
+            return bookingid;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || "Delete Booking Failed");
+        }
+    }
+)
 
 export const handleBooking = createAsyncThunk(
     "/booking",
@@ -204,6 +216,12 @@ export const authSlice = createSlice({
                 // here we are removing the place from the user redux 
                 state.user.places.places = state.user.places.places.filter(
                     (place) => place._id !== action.payload
+                );
+            })
+            .addCase(deletebooking.fulfilled, (state, action) => {
+                // here we are removing the booking from the user redux
+                state.user.bookings = state.user.bookings.filter(
+                    (booking) => booking._id !== action.payload
                 );
             })
             .addCase(editPlace.pending, (state)=>{

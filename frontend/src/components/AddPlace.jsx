@@ -19,6 +19,7 @@ const AddPlace = () => {
     };
 
     return (
+        user.role === "admin" ? (
         <div className="min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200 p-6 pt-12">
             <ProfileComp1 />
             <div className="flex flex-col justify-center items-center my-10">
@@ -29,11 +30,11 @@ const AddPlace = () => {
                         </button>
                     </Link>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 w-full max-w-6xl">
+                <div className="flex flex-col gap-4 w-full max-w-7xl">
                     {user && user?.places?.places && user?.places?.places?.map((place) => (
                         <div
                             key={place._id}
-                            className="relative backdrop-blur-xl bg-white/60 border border-blue-100 rounded-3xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300"
+                            className="relative backdrop-blur-xl  bg-white/60 border border-blue-100 rounded-3xl p-6 hover:shadow-2xl transition-all duration-300"
                         >
                             {/* Delete Button */}
                             <button
@@ -54,9 +55,19 @@ const AddPlace = () => {
                             </Link>
                             {/* Card Content */}
                             <Link to={`/hotelpage/${place._id}`} className="block group">
+                            <div className="flex gap-10 items-center ">
+                            <div className="inline-block mb-4">
+                                {place.photos && place.photos.length > 0 && (
+                                    <img
+                                        src={place.photos[0]}
+                                        alt={place.title}
+                                        className="w-58 h-48 object-cover rounded-2xl "
+                                    />
+                                )}
+                            </div>
+                            <div>
                                 <h3 className="text-xl font-semibold mb-2 text-blue-900 group-hover:text-violet-700 transition">{place.title}</h3>
                                 <p className="text-gray-600 mb-4">{place.address}</p>
-                                <div className="text-2xl font-bold text-violet-600 mb-2">${place.price}</div>
                                 <div className="flex flex-wrap gap-2 mt-2">
                                     {place.perks?.split(",").map((perk, idx) => (
                                         <span
@@ -68,12 +79,25 @@ const AddPlace = () => {
                                         </span>
                                     ))}
                                 </div>
+                                <div className="text-2xl mt-4 font-bold text-violet-600 mb-2"> <span className="text-lg">Price: </span> ${place.price}</div>
+                            </div>
+                            </div>
                             </Link>
                         </div>
                     ))}
                 </div>
             </div>
         </div>
+        ): (
+            <div>
+            user is not admin
+            <Link to={"/profile"}>
+                <button className="border-2 border-blue-200 px-10 py-2 rounded-full bg-white/70 text-blue-900 font-semibold hover:bg-blue-100 hover:text-violet-700 transition duration-300 shadow">
+                    Go to Profile
+                </button>
+            </Link>
+            </div>
+        )
     );
 };
 

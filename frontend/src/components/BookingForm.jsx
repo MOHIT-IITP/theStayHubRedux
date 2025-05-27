@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleBooking } from "../features/auth/authSlice";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const BookingForm = () => {
     const {id} =  useParams();
@@ -9,6 +11,7 @@ const BookingForm = () => {
     const place = useSelector((state) => state.place.place)
 
     const [formData, setFormData] = useState({
+        owner: "",
         title: "",
         checkIn: "",
         checkOut: "",
@@ -16,6 +19,15 @@ const BookingForm = () => {
         phone: "",
         price: "",
     });
+
+    // Sync formData.title with place.title
+    useEffect(() => {
+        setFormData((prev) => ({
+            ...prev,
+            owner: place?.owner || "",
+            title: place?.title || "",
+        }));
+    }, [place?.title]);
 
     // Calculate price based on date difference
     useEffect(() => {
@@ -45,23 +57,34 @@ const BookingForm = () => {
             return toast.error("All fields are required");
         if (!formData.checkIn.trim()) return toast.error("Check-in is required");
         if (!formData.checkOut.trim()) return toast.error("Check-out is required");
+        // Validate that check-in is not in the past
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const checkInDate = new Date(formData.checkIn);
+        const checkOutDate = new Date(formData.checkOut);
+        if (checkInDate < today) return toast.error("Check-in date cannot be in the past");
+        // Validate that check-out is after check-in
+        if (checkOutDate <= checkInDate) return toast.error("Check-out must be after check-in");
         if (!formData.name.trim()) return toast.error("Name is required");
         if (!formData.phone.trim()) return toast.error("Phone is required");
         return true;
     };
 
+    const navigate = useNavigate();
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-            dispatch(handleBooking({placeid: id, formData}));
+            dispatch(handleBooking({ placeid: id, formData }));
             setFormData({
-                title: place.title,
+                title: place.title || "",
                 checkIn: "",
                 checkOut: "",
                 name: "",
                 phone: "",
                 price: "",
-            })
+            });
+            navigate("/");
         }
     };
 
@@ -70,20 +93,21 @@ const BookingForm = () => {
             <h2 className="text-2xl font-bold text-violet-800 mb-6 text-center">Book Your Stay</h2>
             <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                    <label htmlFor="checkIn" className="block text-sm font-medium text-gray-700 mb-1">
-                        title
+                    <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+                       Hotel Name 
                     </label>
                     <input
-                        type="name"
+                        type="text"
                         id="title"
                         name="title"
-                        value={place.title}
+                        value={formData.title}
                         readOnly
-                        disabled
-                        className="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-300 outline-none"
+                        className="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-300 outline-none bg-gray-100 cursor-not-allowed"
                         required
+                        placeholder="Place title"
                     />
                 </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label htmlFor="checkIn" className="block text-sm font-medium text-gray-700 mb-1">
                         Check-In
@@ -94,7 +118,7 @@ const BookingForm = () => {
                         name="checkIn"
                         value={formData.checkIn}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-300 outline-none"
+                        className="w-full px-4 text-sm py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-300 outline-none"
                         required
                     />
                 </div>
@@ -108,9 +132,10 @@ const BookingForm = () => {
                         name="checkOut"
                         value={formData.checkOut}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-300 outline-none"
+                        className="w-full px-4 py-2 border text-sm border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-300 outline-none"
                         required
                     />
+                </div>
                 </div>
                 <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -144,7 +169,7 @@ const BookingForm = () => {
                 </div>
                 <div>
                     <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
-                        Price
+                        Price (in $)
                     </label>
                     <input
                         type="number"

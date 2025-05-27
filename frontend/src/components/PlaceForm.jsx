@@ -74,15 +74,15 @@ const PlaceForm = () => {
 
 return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto">
-            <form onSubmit={handleFormSubmit} className="backdrop-blur-xl bg-white/60 border border-blue-100 rounded-3xl shadow-xl p-8">
+        <div className="max-w-full mx-auto">
+            <form onSubmit={handleFormSubmit} className="backdrop-blur-xl bg-white/60 border border-blue-100 w-full rounded-3xl shadow-xl p-8">
                 <h2 className="text-3xl font-bold text-blue-900 mb-6 text-center drop-shadow">
                     Add New Hotel
                 </h2>
                 <div className="space-y-6">
-                    {/* Form Fields */}
+                    {/* Hotel Name */}
                     <div>
-                        <label className="block text-gray-700 font-semibold mb-2">Hotel Name</label>
+                        <label className="block text-violet-700 font-semibold text-2xl mb-2">Hotel Name</label>
                         <input
                             name="title"
                             placeholder="Luxury Resort & Spa"
@@ -91,9 +91,9 @@ return (
                             className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
                         />
                     </div>
-
+                    {/* Address */}
                     <div>
-                        <label className="block text-gray-700 font-semibold mb-2">Address</label>
+                        <label className="block text-violet-700 font-semibold text-2xl mb-2">Address</label>
                         <input
                             name="address"
                             placeholder="123 Paradise Street, Maldives"
@@ -102,8 +102,9 @@ return (
                             className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
                         />
                     </div>
+                    {/* Description */}
                     <div>
-                        <label className="block text-gray-700 font-semibold mb-2">Description</label>
+                        <label className="block text-violet-700 font-semibold text-2xl mb-2">Description</label>
                         <textarea
                             name="description"
                             placeholder="Describe your property..."
@@ -112,8 +113,9 @@ return (
                             className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition h-32"
                         />
                     </div>
+                    {/* Amenities */}
                     <div>
-                        <label className="block text-gray-700 font-semibold mb-2">Amenities (comma separated)</label>
+                        <label className="block text-violet-700 font-semibold text-2xl mb-2">Amenities (comma separated)</label>
                         <input
                             name="perks"
                             placeholder="Pool, Free WiFi, Spa, Breakfast"
@@ -122,14 +124,17 @@ return (
                             className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
                         />
                     </div>
-
-                    <PhotosUploader
-                        addedPhotos={formData.addedPhotos || []}
-                        onChange={(photos) => setFormData({ ...formData, addedPhotos: photos })}
-                    />
-
+                    {/* Photos */}
                     <div>
-                        <label className="block text-gray-700 font-semibold mb-2">Additional Info</label>
+                        <label className="block text-violet-700 font-semibold text-2xl mb-2">Photos</label>
+                        <PhotosUploader
+                            addedPhotos={formData.addedPhotos || []}
+                            onChange={(photos) => setFormData({ ...formData, addedPhotos: photos })}
+                        />
+                    </div>
+                    {/* Additional Info */}
+                    <div>
+                        <label className="block text-violet-700 font-semibold text-2xl mb-2">Additional Info</label>
                         <textarea
                             name="extraInfo"
                             placeholder="Check-in procedures, special notes..."
@@ -138,10 +143,11 @@ return (
                             className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition h-32"
                         />
                     </div>
-
+                    {/* Grid Fields */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Check-in Time */}
                         <div>
-                            <label className="block text-gray-700 font-semibold mb-2">Check-in Time</label>
+                            <label className="block text-violet-700 font-semibold text-xl mb-2">Check-in Time</label>
                             <input
                                 name="checkIn"
                                 placeholder="14"
@@ -151,9 +157,9 @@ return (
                                 className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
                             />
                         </div>
-
+                        {/* Check-out Time */}
                         <div>
-                            <label className="block text-gray-700 font-semibold mb-2">Check-out Time</label>
+                            <label className="block text-violet-700 font-semibold text-xl mb-2">Check-out Time</label>
                             <input
                                 name="checkOut"
                                 placeholder="11"
@@ -163,9 +169,9 @@ return (
                                 className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
                             />
                         </div>
-
+                        {/* Max Guests */}
                         <div>
-                            <label className="block text-gray-700 font-semibold mb-2">Max Guests</label>
+                            <label className="block text-violet-700 font-semibold text-xl mb-2">Max Guests</label>
                             <input
                                 name="maxGuests"
                                 placeholder="4"
@@ -175,9 +181,9 @@ return (
                                 className="w-full px-4 py-2 rounded-lg border border-violet-200 focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white/70 transition"
                             />
                         </div>
-
+                        {/* Price per Night */}
                         <div>
-                            <label className="block text-gray-700 font-semibold mb-2">Price per Night ($)</label>
+                            <label className="block text-violet-700 font-semibold text-xl mb-2">Price per Night ($)</label>
                             <input
                                 name="price"
                                 placeholder="299"
@@ -188,7 +194,6 @@ return (
                             />
                         </div>
                     </div>
-
                     <button
                         type="submit"
                         className="w-full py-3 px-6 bg-gradient-to-r from-blue-400 to-violet-500 hover:from-blue-500 hover:to-violet-600 text-white rounded-xl transition-all duration-300 font-semibold shadow hover:shadow-lg"

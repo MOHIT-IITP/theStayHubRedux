@@ -65,6 +65,9 @@ const BookingReq = () => {
                   className="w-full bg-white rounded-lg shadow p-4 flex flex-col gap-2 border border-blue-100"
                 >
                   <div>
+                    <strong>Hotel Name:</strong> {booking.title}
+                  </div>
+                  <div>
                     <strong>Name:</strong> {booking.name}
                   </div>
                   <div>

@@ -16,7 +16,7 @@ const ProfilePage = () => {
         <div className="min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200 py-12 px-4">
             <ProfileComp1 />
             <div className="flex flex-col items-center justify-center mt-10">
-                <div className="backdrop-blur-xl bg-white/60 border border-blue-100 rounded-3xl shadow-xl p-8 w-full max-w-md">
+                <div className="backdrop-blur-xl bg-white/30 border border-blue-100 rounded-3xl shadow-xl p-8 w-full max-w-md">
                     <h2 className="text-3xl font-bold text-blue-900 mb-6 text-center drop-shadow">Profile</h2>
                     <div className="flex flex-col gap-6">
                         <div className="flex flex-col items-center">

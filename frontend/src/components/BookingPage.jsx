@@ -33,7 +33,7 @@ const BookingPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200 py-12 px-4">
       <ProfileComp1 />
       <div className="flex justify-center items-center mt-16">
-        <div className="backdrop-blur-xl bg-white/70 border border-blue-200 rounded-3xl shadow-2xl px-10 py-16 text-center w-full max-w-2xl">
+        <div className="backdrop-blur-xl bg-white/70 border border-blue-200 rounded-3xl shadow-2xl px-10 py-16 text-center w-full max-w-7xl">
           <h2 className="text-4xl font-extrabold text-blue-900 mb-6 drop-shadow-lg tracking-tight">
             Your Bookings
           </h2>
@@ -49,7 +49,7 @@ const BookingPage = () => {
                   <Link to={`/hotelpage/${booking.place}`} className="no-underline" key={booking._id}>
                   <li
                     key={booking._id}
-                    className="relative bg-white/90 border border-blue-100 rounded-2xl shadow-lg p-6 text-left hover:shadow-2xl transition-shadow"
+                    className="relative mt-4 bg-white/90 border border-blue-100 rounded-2xl shadow-lg p-6 text-left hover:shadow-2xl transition-shadow"
                     onClick={() => redirectToHotelPage(booking.place)}
                   >
                     <button

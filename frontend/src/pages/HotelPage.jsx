@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { placeinfo } from "../features/place/placeSlice";
 import { useParams } from "react-router-dom";
 import BookingForm from "../components/BookingForm";
+import { selectUser } from "../features/auth/authSlice";
 
 const HotelPage = () => {
     const { id } = useParams();
@@ -14,6 +15,8 @@ const HotelPage = () => {
     useEffect(() => {
         dispatch(placeinfo(id));
     }, [dispatch, id]);
+
+    const user = useSelector(selectUser);
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200 py-12 px-4 sm:px-6 lg:px-8">
@@ -41,7 +44,7 @@ const HotelPage = () => {
             {showGallery && place.photos && place.photos.length > 0 && (
                 <div className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-black bg-opacity-95 overflow-auto">
                     <button
-                        className="absolute top-6 right-8 text-white text-3xl font-bold bg-black/60 rounded-full px-4 py-2 hover:bg-black/80 transition"
+                        className="absolute top-36 right-8 text-white text-3xl font-bold bg-black/60 rounded-full px-4 py-2 hover:bg-black/80 transition"
                         onClick={() => setShowGallery(false)}
                         title="Close Gallery"
                     >
@@ -60,8 +63,8 @@ const HotelPage = () => {
                     </div>
                 </div>
             )}
-            <div className="max-w-5xl mx-auto">
-                <div className="backdrop-blur-xl bg-white/50 border border-blue-100 rounded-3xl p-8 shadow-2xl ring-1 ring-violet-200/30">
+            <div className="max-w-full mx-auto">
+                <div className="backdrop-blur-xl p-8">
                     {place ? (
                         <>
                             {/* Header Section */}
@@ -75,7 +78,7 @@ const HotelPage = () => {
                                 <div className="mb-12">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {place.photos.slice(0, 2).map((photo, idx) => (
-                                            <div key={idx} className="h-64 rounded-2xl overflow-hidden shadow cursor-pointer" onClick={() => setFullscreenPhoto(photo)}>
+                                            <div key={idx} className="h-100 rounded-2xl overflow-hidden shadow cursor-pointer" onClick={() => setFullscreenPhoto(photo)}>
                                                 <img
                                                     src={photo}
                                                     alt={`Hotel photo ${idx + 1}`}
@@ -98,40 +101,54 @@ const HotelPage = () => {
                             )}
 
                             {/* Details Section */}
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div className="flex flex-col md:flex-row max-w-3xl mx-auto justify-center items-start gap-8">
                                 {/* Left Column */}
-                                <div className="space-y-6">
-                                    <div className="backdrop-blur-sm bg-white/60 p-6 rounded-xl border border-violet-100">
-                                        <h2 className="text-2xl font-semibold text-blue-900 mb-4">Description</h2>
+                                <div className="flex-1 space-y-6 w-full max-w-md">
+                                <div className="flex-1 space-y-6 w-full">
+                                    <div className="backdrop-blur-sm ">
+                                        <h2 className="text-xl sm:text-2xl font-semibold text-blue-900 mb-3">Description</h2>
                                         <p className="text-gray-700 leading-relaxed">{place.description}</p>
                                     </div>
 
-                                    <div className="backdrop-blur-sm bg-white/60 p-6 rounded-xl border border-violet-100">
-                                        <h2 className="text-2xl font-semibold text-blue-900 mb-4">Amenities</h2>
-                                        <div className="grid grid-cols-2 gap-4">
-                                            {place.perks}
-                                        </div>
+                                    <div className="backdrop-blur-sm ">
+                                        <h2 className="text-xl sm:text-2xl font-semibold text-blue-900 mb-3">Perks</h2>
+                                <div className="flex flex-wrap gap-2 mt-2">
+                                    {place.perks?.split(",").map((perk, idx) => (
+                                        <span
+                                            key={idx}
+                                            className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-br from-blue-100 to-violet-100 text-blue-800 text-xs font-medium shadow"
+                                        >
+                                            <span className="w-2 h-2 bg-gradient-to-br from-blue-400 to-violet-500 rounded-full mr-2"></span>
+                                            {perk.trim()}
+                                        </span>
+                                    ))}
+                                </div>
+                                    <div className="backdrop-blur-sm mt-5 ">
+                                        <h2 className="text-xl sm:text-2xl font-semibold text-blue-900 mb-3">Additional Info</h2>
+                                        <p className="text-gray-700 leading-relaxed">{place.extraInfo}</p>
                                     </div>
                                 </div>
+                                </div>
+                            </div>
 
                                 {/* Right Column */}
-                                <div className="space-y-6">
-                                    <div className="backdrop-blur-sm bg-white/60 p-6 rounded-xl border border-blue-100">
-                                        <h2 className="text-2xl font-semibold text-blue-900 mb-4">Details</h2>
-                                        <div className="grid grid-cols-2 gap-4 text-gray-700">
-                                            <div>
+                                <div className="flex-1 space-y-6 w-full max-w-md">
+                                    <div className="backdrop-blur-sm bg-white/90 p-6 rounded-xl border border-blue-100">
+                                        <h2 className="text-xl sm:text-2xl font-semibold text-blue-900 mb-3">Details</h2>
+                                        <div className="grid grid-cols-2 text-gray-700 text-sm">
+                                            <div className="border-r border-dashed border-black/30 flex flex-col items-center gap-1 border-b pb-2">
                                                 <p className="font-medium">Check-in</p>
                                                 <p>{place.checkIn}:00</p>
                                             </div>
-                                            <div>
+                                            <div className="border-b border-dashed border-black/30 pb-2 flex flex-col items-center gap-1">
                                                 <p className="font-medium">Check-out</p>
                                                 <p>{place.checkOut}:00</p>
                                             </div>
-                                            <div>
+                                            <div className="border-r border-dashed border-black/30 pt-2 flex flex-col items-center gap-1">
                                                 <p className="font-medium">Max Guests</p>
                                                 <p>{place.maxGuests}</p>
                                             </div>
-                                            <div>
+                                            <div className="pt-2 flex flex-col items-center gap-1">
                                                 <p className="font-medium">Price</p>
                                                 <p>
                                                     <span className="text-blue-700 font-semibold">${place.price}</span>/night
@@ -140,19 +157,15 @@ const HotelPage = () => {
                                         </div>
                                     </div>
 
-                                    <div className="backdrop-blur-sm bg-white/60 p-6 rounded-xl border border-blue-100">
-                                        <h2 className="text-2xl font-semibold text-blue-900 mb-4">Additional Info</h2>
-                                        <p className="text-gray-700 leading-relaxed">{place.extraInfo}</p>
-                                    </div>
-                                    <BookingForm/>
+                                    {user && user.role === "user" && <BookingForm />}
                                 </div>
                             </div>
                         </>
                     ) : (
-                            <div className="text-center py-12">
-                                <h1 className="text-2xl text-gray-600">Loading place details...</h1>
-                            </div>
-                        )}
+                        <div className="text-center py-12">
+                            <h1 className="text-2xl text-gray-600">Loading place details...</h1>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
@@ -160,3 +173,4 @@ const HotelPage = () => {
 };
 
 export default HotelPage;
+

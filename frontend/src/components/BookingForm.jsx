@@ -94,7 +94,7 @@ const BookingForm = () => {
             <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
                     <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-                        Title
+                       Hotel Name 
                     </label>
                     <input
                         type="text"
@@ -107,6 +107,7 @@ const BookingForm = () => {
                         placeholder="Place title"
                     />
                 </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label htmlFor="checkIn" className="block text-sm font-medium text-gray-700 mb-1">
                         Check-In
@@ -117,7 +118,7 @@ const BookingForm = () => {
                         name="checkIn"
                         value={formData.checkIn}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-300 outline-none"
+                        className="w-full px-4 text-sm py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-300 outline-none"
                         required
                     />
                 </div>
@@ -131,9 +132,10 @@ const BookingForm = () => {
                         name="checkOut"
                         value={formData.checkOut}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-300 outline-none"
+                        className="w-full px-4 py-2 border text-sm border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-300 outline-none"
                         required
                     />
+                </div>
                 </div>
                 <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -167,7 +169,7 @@ const BookingForm = () => {
                 </div>
                 <div>
                     <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
-                        Price
+                        Price (in $)
                     </label>
                     <input
                         type="number"

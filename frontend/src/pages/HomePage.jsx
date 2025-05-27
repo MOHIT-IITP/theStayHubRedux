@@ -13,7 +13,7 @@ const HomePage = () => {
     }, [dispatch]);
 
     return (
-        <div className="overflow-hidden min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200 py-12 px-4">
+        <div className="min-h-screen py-20 ">
             <div className="max-w-7xl mx-auto">
                 <h1 className="text-4xl font-bold text-blue-900 mb-8 text-center drop-shadow">
                     Welcome to the Home Page

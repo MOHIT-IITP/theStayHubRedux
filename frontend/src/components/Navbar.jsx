@@ -6,7 +6,7 @@ export default function Navbar() {
   const user = useSelector(selectUser);
 
   return (
-    <header className="flex justify-between items-center flex-wrap px-6 py-4
+    <header className="flex overflow-x-hidden justify-between items-center flex-wrap px-6 py-4
       bg-white/60 backdrop-blur-md shadow-md rounded-b-2xl border-b border-violet-100
       sticky top-0 z-50">
       {/* Left section: Logo */}

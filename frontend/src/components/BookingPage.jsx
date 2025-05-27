@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import ProfileComp1 from "./ProfileComp1";
 import { useEffect } from "react";
 import { deletebooking, selectUser, showBookingPlaces } from "../features/auth/authSlice";
+import { placeinfo } from "../features/place/placeSlice";
+import { Link } from "react-router-dom";
 
 const BookingPage = () => {
   const dispatch = useDispatch();
@@ -11,6 +13,10 @@ const BookingPage = () => {
   useEffect(() => {
     dispatch(showBookingPlaces());
   }, [dispatch]);
+
+  const redirectToHotelPage = (bookingId) => {
+    dispatch(placeinfo(bookingId));
+  }
 
   const handleDeleteBooking = async (bookingId) => {
     if (window.confirm("Are you sure you want to delete this booking?")) {
@@ -40,9 +46,11 @@ const BookingPage = () => {
                 if (booking.status === "accepted") statusColor = "text-green-700 bg-green-100";
                 else if (booking.status === "rejected") statusColor = "text-red-700 bg-red-100";
                 return (
+                  <Link to={`/hotelpage/${booking.place}`} className="no-underline" key={booking._id}>
                   <li
                     key={booking._id}
                     className="relative bg-white/90 border border-blue-100 rounded-2xl shadow-lg p-6 text-left hover:shadow-2xl transition-shadow"
+                    onClick={() => redirectToHotelPage(booking.place)}
                   >
                     <button
                       onClick={() => handleDeleteBooking(booking._id)}
@@ -81,6 +89,7 @@ const BookingPage = () => {
                       </span>
                     </div>
                   </li>
+                  </Link>
                 );
               })}
             </ul>

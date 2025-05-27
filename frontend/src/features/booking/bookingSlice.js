@@ -64,10 +64,9 @@ export const bookingSlice = createSlice({
         )
         .addCase(handleAcceptBooking.fulfilled, (state, action) => {
             state.isLoading = false;
-            const updatedBooking = state.booking.map(booking => 
-                booking._id === action.payload.booking._id ? action.payload.booking : booking
-            );
-            state.booking = updatedBooking;
+            state.booking = state.booking
+            .filter(booking => booking._id !== action.payload.booking._id)
+            .concat(action.payload.booking);
         })
         .addCase(handleAcceptBooking.rejected, (state, action) => {
             state.isLoading = false;
@@ -79,10 +78,9 @@ export const bookingSlice = createSlice({
         })
         .addCase(handleRejectBooking.fulfilled, (state, action) => {
             state.isLoading = false;
-            const updatedBooking = state.booking.map(booking => 
-                booking._id === action.payload.booking._id ? action.payload.booking : booking
+            state.booking = state.booking.filter(
+            booking => booking._id !== action.payload.booking._id
             );
-            state.booking = updatedBooking;
         })
         .addCase(handleRejectBooking.rejected, (state, action) => {
             state.isLoading = false;

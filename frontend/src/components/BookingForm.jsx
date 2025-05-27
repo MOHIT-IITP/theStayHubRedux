@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleBooking } from "../features/auth/authSlice";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const BookingForm = () => {
     const {id} =  useParams();
@@ -56,6 +57,14 @@ const BookingForm = () => {
             return toast.error("All fields are required");
         if (!formData.checkIn.trim()) return toast.error("Check-in is required");
         if (!formData.checkOut.trim()) return toast.error("Check-out is required");
+        // Validate that check-in is not in the past
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const checkInDate = new Date(formData.checkIn);
+        const checkOutDate = new Date(formData.checkOut);
+        if (checkInDate < today) return toast.error("Check-in date cannot be in the past");
+        // Validate that check-out is after check-in
+        if (checkOutDate <= checkInDate) return toast.error("Check-out must be after check-in");
         if (!formData.name.trim()) return toast.error("Name is required");
         if (!formData.phone.trim()) return toast.error("Phone is required");
         return true;

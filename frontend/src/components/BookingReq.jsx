@@ -2,9 +2,12 @@ import React, { useEffect } from 'react';
 import ProfileComp1 from './ProfileComp1';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleAcceptBooking, handleRejectBooking, showBooking } from '../features/booking/bookingSlice';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const BookingReq = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const bookings = useSelector((state) => state.booking.booking);
 
   useEffect(() => {
@@ -24,11 +27,24 @@ const BookingReq = () => {
 
   // Handler functions (implement actual logic as needed)
   const handleAccept = (id) => {
-    dispatch(handleAcceptBooking(id))
+    try {
+      dispatch(handleAcceptBooking(id))
+      toast.success('Booking accepted successfully');
+      navigate('/'); 
+    } catch (error) {
+      console.error('Error accepting booking:', error);
+      toast.error('Failed to accept booking');
+    }
   };
 
   const handleReject = (id) => {
-    dispatch(handleRejectBooking(id));
+    try {
+      dispatch(handleRejectBooking(id));
+      toast.success("Booking rejected successfully");
+      navigate("/");
+    } catch (error) {
+      toast.error("Failed to reject booking");
+    }
   };
 
 

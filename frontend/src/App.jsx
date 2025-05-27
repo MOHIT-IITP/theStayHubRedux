@@ -25,7 +25,7 @@ const App = () => {
     }, [dispatch]);
 
     return (
-        <div>
+        <div className="overflow-hidden min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200">
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route

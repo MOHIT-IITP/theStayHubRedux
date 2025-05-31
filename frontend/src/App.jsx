@@ -15,65 +15,55 @@ import EditPlace from "./components/EditPlace.jsx";
 import HotelPage from "./pages/HotelPage.jsx";
 import BookingReq from "./components/BookingReq.jsx";
 const App = () => {
-    const user = useSelector(selectUser);
-    const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
 
-    console.log(user);
+  console.log(user);
 
-    useEffect(() => {
-        dispatch(checkAuth());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
 
-    return (
-        <div className="overflow-hidden min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200">
-            <Routes>
-                <Route path="/" element={<Layout />}>
-                    <Route
-                        path="/"
-                        element={user ? <HomePage /> : <Navigate to="/login" />}
-                    />
-                    <Route
-                        path="/login"
-                        element={!user ? <LoginPage /> : <Navigate to="/" />}
-                    />
-                    <Route
-                        path="/signup"
-                        element={!user ? <SignUpPage /> : <Navigate to="/" />}
-                    />
-                    <Route
-                        path="/profile"
-                        element={!user ? <LoginPage /> : <ProfilePage/>}
-                    />
-                    <Route
-                        path="/booking"
-                        element={!user ? <LoginPage /> : <BookingPage/>}
-                    />
-                    <Route
-                        path="/place"
-                        element={!user ? <LoginPage /> : <AddPlace/>}
-                    />
-                    <Route
-                        path="/form"
-                        element={!user ? <LoginPage /> : <PlaceForm/>}
-                    />
-                    <Route
-                        path="/editplace/:id"
-                        element={!user ? <LoginPage /> : <EditPlace/>}
-                    />
-                    <Route
-                        path="/hotelpage/:id"
-                        element={!user ? <LoginPage /> : <HotelPage/>}
-                    />
-                    <Route
-                        path="/bookingReq"
-                        element={!user ? <LoginPage /> : <BookingReq/>}
-                    />
-                </Route>
-
-            </Routes>
-            <Toaster />
-        </div>
-    );
+  return (
+    <div className="overflow-hidden min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200">
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route
+            path="/login"
+            element={!user ? <LoginPage /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/signup"
+            element={!user ? <SignUpPage /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/profile"
+            element={!user ? <LoginPage /> : <ProfilePage />}
+          />
+          <Route
+            path="/booking"
+            element={!user ? <LoginPage /> : <BookingPage />}
+          />
+          <Route path="/place" element={!user ? <LoginPage /> : <AddPlace />} />
+          <Route path="/form" element={!user ? <LoginPage /> : <PlaceForm />} />
+          <Route
+            path="/editplace/:id"
+            element={!user ? <LoginPage /> : <EditPlace />}
+          />
+          <Route
+            path="/hotelpage/:id"
+            element={!user ? <LoginPage /> : <HotelPage />}
+          />
+          <Route
+            path="/bookingReq"
+            element={!user ? <LoginPage /> : <BookingReq />}
+          />
+        </Route>
+      </Routes>
+      <Toaster />
+    </div>
+  );
 };
 
 export default App;

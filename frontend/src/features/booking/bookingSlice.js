@@ -36,6 +36,18 @@ export const handleRejectBooking = createAsyncThunk(
     }
 )
 
+export const bookingInfo = createAsyncThunk(
+    "/booking",
+    async(bookingid, {rejectWithValue})=>{
+        try {
+            const res = await axiosInstance.get(`/booking/${bookingid}`);
+            return res.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || "Reject Booking Failed");
+        }
+    }
+)
+
 export const bookingSlice = createSlice({
     name: "bookingSlice",
     initialState: {
@@ -49,43 +61,55 @@ export const bookingSlice = createSlice({
             state.isLoading = true;
             state.error = null;
         })
-        .addCase(showBooking.fulfilled, (state, action) => {
-            state.isLoading = false;
-            state.booking = action.payload.bookings;
-        })
-        .addCase(showBooking.rejected, (state, action) => {
-            state.isLoading = false;
-            state.error = action.payload;
-        })
-        .addCase(handleAcceptBooking.pending, (state) => {
-            state.isLoading = true;
-            state.error = null;
-        }
-        )
-        .addCase(handleAcceptBooking.fulfilled, (state, action) => {
-            state.isLoading = false;
-            state.booking = state.booking
-            .filter(booking => booking._id !== action.payload.booking._id)
-            .concat(action.payload.booking);
-        })
-        .addCase(handleAcceptBooking.rejected, (state, action) => {
-            state.isLoading = false;
-            state.error = action.payload;
-        })
-        .addCase(handleRejectBooking.pending, (state) => {
-            state.isLoading = true;
-            state.error = null;
-        })
-        .addCase(handleRejectBooking.fulfilled, (state, action) => {
-            state.isLoading = false;
-            state.booking = state.booking.filter(
-            booking => booking._id !== action.payload.booking._id
-            );
-        })
-        .addCase(handleRejectBooking.rejected, (state, action) => {
-            state.isLoading = false;
-            state.error = action.payload;
-        });
+            .addCase(showBooking.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.booking = action.payload.bookings;
+            })
+            .addCase(showBooking.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(handleAcceptBooking.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            }
+            )
+            .addCase(handleAcceptBooking.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.booking = state.booking
+                    .filter(booking => booking._id !== action.payload.booking._id)
+                    .concat(action.payload.booking);
+            })
+            .addCase(handleAcceptBooking.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(handleRejectBooking.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(handleRejectBooking.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.booking = state.booking.filter(
+                    booking => booking._id !== action.payload.booking._id
+                );
+            })
+            .addCase(handleRejectBooking.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(bookingInfo.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(bookingInfo.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.booking = action.payload;
+            })
+            .addCase(bookingInfo.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            });
     }
 })
 

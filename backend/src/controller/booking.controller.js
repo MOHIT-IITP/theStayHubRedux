@@ -116,3 +116,22 @@ export const handleRejectBooking = async (req, res) => {
         return res.status(500).json({ message: "Internal Server Error" });
     }
 }
+
+
+export const getBookingInfo = async(req, res) => {
+    try {
+        const {id: bookingid} = req.params;
+
+        const booking = await BookingModel.findById(bookingid);
+        if(!booking) {
+            return res.status(400).json({message:"Booking not found"});
+        }
+
+        return res.json(booking);
+
+    } catch (error) {
+        console.log("Error in getting booking controller");
+        return res.status(500).json({error: "Internal Server Error"});
+    }
+
+}

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addplace } from "../features/place/placeSlice";
-import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom"; 
 import PhotosUploader from "./PhotoUploader";
+import { toast } from "react-toastify";
 
 
 const PlaceForm = () => {

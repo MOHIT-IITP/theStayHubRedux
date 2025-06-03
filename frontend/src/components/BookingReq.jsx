@@ -3,7 +3,7 @@ import ProfileComp1 from './ProfileComp1';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleAcceptBooking, handleRejectBooking, showBooking } from '../features/booking/bookingSlice';
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
+import { toast } from 'react-toastify';
 
 const BookingReq = () => {
   const dispatch = useDispatch();

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleBooking } from "../features/auth/authSlice";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 
 const BookingForm = () => {
     const {id} =  useParams();

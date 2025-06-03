@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom"; 
 import { editPlace } from "../features/auth/authSlice";
 import { axiosInstance } from "../lib/axiosInstance";
 import PhotosUploader from "./PhotoUploader";
+import { toast } from "react-toastify";
 
 const EditPlace = () => {
     const {id} = useParams();

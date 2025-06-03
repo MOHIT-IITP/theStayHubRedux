@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../lib/axiosInstance";
-import toast from "react-hot-toast";
+import {toast} from "react-toastify" ;
 
 const initialState = {
     user: null,
@@ -51,7 +51,6 @@ export const checkAuth = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const res = await axiosInstance.get("/auth/check");
-            console.log("auth check res: ", res.data);
             return res.data || res.data.user;
         } catch (error) {
             return rejectWithValue(
@@ -66,7 +65,6 @@ export const showPlaces = createAsyncThunk(
     async(_, {rejectWithValue})=>{
         try {
             const res = await axiosInstance.get('/showplaces');
-            console.log(res.data);
             return res.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || "Show places Failed");
@@ -151,7 +149,6 @@ export const authSlice = createSlice({
                 state.error = null;
             })
             .addCase(login.fulfilled, (state, action) => {
-                console.log(action);
                 state.isLoading = false;
                 state.user = action.payload;
             })
@@ -205,7 +202,6 @@ export const authSlice = createSlice({
             .addCase(showPlaces.fulfilled, (state, action)=>{
                 state.isLoading = false;
                 // done this because i have to populate the existing user with place detail
-                console.log("this is action payload from auth slice",action.payload);
                 state.user.places = action.payload;
             })
             .addCase(showPlaces.rejected, (state, action) =>{

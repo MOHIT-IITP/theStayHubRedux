@@ -12,11 +12,6 @@ const HomePage = () => {
     dispatch(getplace());
   }, [dispatch]);
 
-  // Add detailed console logs to debug the places data
-  useEffect(() => {
-    console.log('Raw places data:', places);
-  }, [places]);
-
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center">

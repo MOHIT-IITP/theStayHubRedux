@@ -90,10 +90,19 @@ const BookingPage = () => {
                         Price: <span className="font-medium">${booking.price}</span>
                       </span>
                     </div>
+                    
                   </li>
                   </Link>
                 );
               })}
+              <li className="flex justify-center mt-8">
+                <button
+                  onClick={() => dispatch(showBookingPlaces())}
+                  className="mt-4 w-full py-3 px-6 bg-gradient-to-r from-blue-200/80 to-violet-200/80 hover:from-blue-300/80 hover:to-violet-300/80 text-blue-900 rounded-xl transition-all duration-300 font-semibold shadow flex items-center justify-center"
+                >
+                  Refresh Bookings
+                </button>
+              </li>
             </ul>
           )}
         </div>

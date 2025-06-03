@@ -82,13 +82,13 @@ const BookingReq = () => {
                       className="bg-green-200 hover:bg-green-300 text-green-900 font-semibold py-1 px-3 rounded"
                       onClick={() => handleAccept(booking._id)}
                     >
-                      Accept
+                      Accept Booking
                     </button>
                     <button
                       className="bg-red-200 hover:bg-red-300 text-red-900 font-semibold py-1 px-3 rounded"
                       onClick={() => handleReject(booking._id)}
                     >
-                      Reject
+                      Reject Booking
                     </button>
                   </div>
                 </div>
@@ -100,7 +100,7 @@ const BookingReq = () => {
               className="mt-4 w-full py-3 px-6 bg-gradient-to-r from-blue-200/80 to-violet-200/80 hover:from-blue-300/80 hover:to-violet-300/80 text-blue-900 rounded-xl transition-all duration-300 font-semibold shadow flex items-center justify-center"
               onClick={() => dispatch(showBooking())}
             >
-              Refresh
+              Refresh Booking Requests
             </button>
           </div>
         </div>

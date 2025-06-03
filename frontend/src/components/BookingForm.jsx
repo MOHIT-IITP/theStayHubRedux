@@ -62,9 +62,15 @@ const BookingForm = () => {
         today.setHours(0, 0, 0, 0);
         const checkInDate = new Date(formData.checkIn);
         const checkOutDate = new Date(formData.checkOut);
-        if (checkInDate < today) return toast.error("Check-in date cannot be in the past");
+        if (checkInDate < today){
+            toast.error("Check-in date cannot be in the past");
+            return false;
+        } 
         // Validate that check-out is after check-in
-        if (checkOutDate <= checkInDate) return toast.error("Check-out must be after check-in");
+        if (checkOutDate < checkInDate){
+            toast.error("Check-out must be after check-in");
+            return false;
+        }
         if (!formData.name.trim()) return toast.error("Name is required");
         if (!formData.phone.trim()) return toast.error("Phone is required");
         return true;

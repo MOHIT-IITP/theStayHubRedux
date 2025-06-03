@@ -1,11 +1,16 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ProfileComp1 from './ProfileComp1';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleAcceptBooking, handleRejectBooking, showBooking } from '../features/booking/bookingSlice';
+import {
+  handleAcceptBooking,
+  handleRejectBooking,
+  showBooking,
+} from '../features/booking/bookingSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const BookingReq = () => {
+  const [reasons, setReasons] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const bookings = useSelector((state) => state.booking.booking);
@@ -14,7 +19,6 @@ const BookingReq = () => {
     dispatch(showBooking());
   }, [dispatch]);
 
-  // Helper function to format date as "DD MMM YYYY"
   const formatDate = (dateString) => {
     if (!dateString) return '';
     const date = new Date(dateString);
@@ -25,29 +29,39 @@ const BookingReq = () => {
     });
   };
 
-  // Handler functions (implement actual logic as needed)
-  const handleAccept = (id) => {
+  const handleAccept = async (id) => {
     try {
-      dispatch(handleAcceptBooking(id))
+      await dispatch(handleAcceptBooking(id)).unwrap();
       toast.success('Booking accepted successfully');
-      navigate('/'); 
+      navigate('/');
     } catch (error) {
       console.error('Error accepting booking:', error);
       toast.error('Failed to accept booking');
     }
   };
 
-  const handleReject = (id) => {
+  const handleReject = async (id) => {
     try {
-      dispatch(handleRejectBooking(id));
-      toast.success("Booking rejected successfully");
-      navigate("/");
+      const reason = reasons[id] || '';
+      if (!reason.trim()) {
+        toast.warn('Please enter a reason before rejecting.');
+        return;
+      }
+      await dispatch(handleRejectBooking({ id, reason })).unwrap();
+      toast.success('Booking rejected successfully');
+      navigate('/');
     } catch (error) {
-      toast.error("Failed to reject booking");
+      console.error('Error rejecting booking:', error);
+      toast.error('Failed to reject booking');
     }
   };
 
-
+  const handleReasonChange = (id, value) => {
+    setReasons((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200 py-12 px-4">
@@ -76,7 +90,12 @@ const BookingReq = () => {
                   <div>
                     <strong>CheckOut:</strong> {formatDate(booking.checkOut)}
                   </div>
-                  {/* Action buttons */}
+                  <textarea
+                    className="w-full mt-2 p-2 border border-gray-300 rounded text-sm"
+                    placeholder="Enter rejection reason..."
+                    value={reasons[booking._id] || ''}
+                    onChange={(e) => handleReasonChange(booking._id, e.target.value)}
+                  />
                   <div className="flex gap-2 mt-2">
                     <button
                       className="bg-green-200 hover:bg-green-300 text-green-900 font-semibold py-1 px-3 rounded"

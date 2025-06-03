@@ -26,9 +26,9 @@ export const handleAcceptBooking = createAsyncThunk(
 )
 export const handleRejectBooking = createAsyncThunk(
     "/rejectbooking",
-    async(bookingid, {rejectWithValue})=>{
+    async({id, reason}, {rejectWithValue})=>{
         try {
-            const res = await axiosInstance.post(`/booking/${bookingid}/reject`);
+            const res = await axiosInstance.put(`/booking/${id}/reject`, { reason });
             return res.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || "Reject Booking Failed");

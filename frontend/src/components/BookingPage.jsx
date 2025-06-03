@@ -14,6 +14,14 @@ const BookingPage = () => {
     dispatch(showBookingPlaces());
   }, [dispatch]);
 
+  // Sort bookings by createdAt or checkIn (latest first)
+  const sortedBookings = [...bookings].sort((a, b) => {
+    // Prefer createdAt if available, else fallback to checkIn
+    const dateA = new Date(a.createdAt || a.checkIn || 0);
+    const dateB = new Date(b.createdAt || b.checkIn || 0);
+    return dateB - dateA;
+  });
+
   const redirectToHotelPage = (bookingId) => {
     dispatch(placeinfo(bookingId));
   }
@@ -24,10 +32,8 @@ const BookingPage = () => {
     if (window.confirm("Are you sure you want to delete this booking?")) {
       try {
         await dispatch(deletebooking(bookingId)).unwrap();
-        alert("Booking deleted successfully");
       } catch (error) {
         console.error("Failed to delete booking:", error);
-        alert("Failed to delete booking");
       }
     }
   };
@@ -39,11 +45,11 @@ const BookingPage = () => {
           <h2 className="text-4xl font-extrabold text-blue-900 mb-6 drop-shadow-lg tracking-tight">
             Your Bookings
           </h2>
-          {bookings.length === 0 ? (
+          {sortedBookings.length === 0 ? (
             <p className="text-lg text-gray-700">You have no bookings yet.</p>
           ) : (
             <ul className="space-y-6 mt-8">
-              {bookings.map((booking) => {
+              {sortedBookings.map((booking) => {
                 let statusColor = "text-blue-700 bg-blue-100";
                 if (booking.status === "accepted") statusColor = "text-green-700 bg-green-100";
                 else if (booking.status === "rejected") statusColor = "text-red-700 bg-red-100";
@@ -81,6 +87,16 @@ const BookingPage = () => {
                       <span className={`px-3 py-1 rounded-full font-semibold ${statusColor}`}>
                         Status: {booking.status}
                       </span>
+                      {booking.status === 'rejected' && (
+                        <span className=" animate-bounce bg-red-50 font-semibold px-3 py-1 rounded-full text-red-700">
+                          Delete this booking
+                        </span>
+                      )}
+                      {booking.status === 'rejected' && (
+                        <span className=" bg-yellow-50 font-semibold px-3 py-1 rounded-full text-yellow-700">
+                          {booking.reasonCancel}
+                        </span>
+                      )}
                     </div>
                     <div className="flex flex-wrap gap-4 text-gray-700 text-sm mb-2">
                       <span className="bg-yellow-50 px-3 py-1 rounded-full">
@@ -111,4 +127,4 @@ const BookingPage = () => {
   );
 };
 
-export default BookingPage; 
+export default BookingPage;

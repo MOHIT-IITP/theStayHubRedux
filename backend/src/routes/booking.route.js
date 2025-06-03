@@ -7,7 +7,7 @@ import { protectRoute } from "../lib/protectRoute.js";
 router.post("/booking/:id",protectRoute, handleBooking)
 router.post('/deletebooking/:id',protectRoute, deleteBooking);
 router.post('/booking/:id/accept', protectRoute, handleAcceptBooking);
-router.post('/booking/:id/reject', protectRoute, handleRejectBooking);
+router.put('/booking/:id/reject', protectRoute, handleRejectBooking);
 
 // get requests
 router.get('/bookings',protectRoute, showbookingPlaces);

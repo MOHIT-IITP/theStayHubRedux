@@ -104,11 +104,14 @@ export const handleAcceptBooking = async (req, res) => {
 export const handleRejectBooking = async (req, res) => {
     try {
         const { id: bookingid } = req.params;
+        const { reason } = req.body;
+        // First, check if booking exists
         const booking = await BookingModel.findById(bookingid);
         if (!booking) {
             return res.status(404).json({ message: "Booking not found" });
         }
         booking.status = "rejected";
+        booking.reasonCancel = reason; // Make sure your schema supports this field
         await booking.save();
         res.json({ message: "Booking rejected successfully", booking });
     } catch (error) {
@@ -116,6 +119,7 @@ export const handleRejectBooking = async (req, res) => {
         return res.status(500).json({ message: "Internal Server Error" });
     }
 }
+
 
 
 export const getBookingInfo = async(req, res) => {

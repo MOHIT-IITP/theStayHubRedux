@@ -124,7 +124,7 @@ export const getBookingInfo = async(req, res) => {
 
         const booking = await BookingModel.findById(bookingid);
         if(!booking) {
-            return res.status(400).json({message:"Booking not found"});
+            return res.status(404).json({message:"Booking not found"});
         }
 
         return res.json(booking);
@@ -133,5 +133,4 @@ export const getBookingInfo = async(req, res) => {
         console.log("Error in getting booking controller");
         return res.status(500).json({error: "Internal Server Error"});
     }
-
 }

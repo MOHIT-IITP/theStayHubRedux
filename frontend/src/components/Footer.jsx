@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import {motion} from "framer-motion";
 import {
   FaTwitter,
   FaInstagram,
@@ -15,7 +14,7 @@ const user = useSelector(selectUser);
     <footer className=" text-white bg-neutral-900 py-8 -m-8 mt-16 ">
         <div className=" flex justify-around items-center flex-wrap gap-4  place-items-center">
           <div className="mb-3 items-start flex flex-col text-center">
-            <h2 className="text-primary mb-3 text-lg font-bold">Support</h2>
+            <h2 className="text-[#7F00FF] mb-3 text-lg font-bold">Support</h2>
             <p className="flex my-2 gap-1 justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -52,10 +51,10 @@ const user = useSelector(selectUser);
             </p>
           </div>
           <div className="mb-3 items-start flex flex-col text-center">
-            <Link to={"/"} className="mb-3 text-primary text-lg font-bold">
+            <Link to={"/"} className="mb-3 text-[#7F00FF] text-lg font-bold">
             TheStayHub
             </Link>
-            <Link className="flex gap-1 my-2 justify-center hover:text-primary" to={ user ? "/account": "/login"}>
+            <Link className="flex gap-1 my-2 justify-center hover:text-[#7F00FF]" to={ user ? "/profile": "/login"}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -73,8 +72,8 @@ const user = useSelector(selectUser);
               Profile
             </Link>
             <Link
-              to={ user ? "/account/bookings": "/login"}
-              className="hover:text-primary flex gap-1 justify-center"
+              to={ user ? "/booking": "/login"}
+              className="hover:text-[#7F00FF] flex gap-1 justify-center"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +93,7 @@ const user = useSelector(selectUser);
             </Link>
           </div>
           <div className="mb-3 items-start flex flex-col text-center">
-            <h2 className="mb-3 text-lg text-primary font-bold">Contact Us</h2>
+            <h2 className="mb-3 text-lg text-[#7F00FF] font-bold">Contact Us</h2>
             <p className="flex gap-2 my-2 justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -177,7 +176,7 @@ const user = useSelector(selectUser);
         </div>
         </div>
         <div className="text-[10rem] font-bold flex justify-center p-10 items-center mt-10">
-          TheStay <span className="text-primary">Hub</span>
+          TheStay <span className="text-[#7F00FF]">Hub</span>
         </div>
     </footer>
   );

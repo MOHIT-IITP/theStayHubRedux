@@ -70,7 +70,18 @@ const HotelPage = () => {
                             {/* Header Section */}
                             <div className="mb-8 text-center">
                                 <h1 className="text-4xl font-bold text-gray-800 mb-4 drop-shadow-lg">{place.title}</h1>
-                                <p className="text-lg text-violet-700/80">{place.address}</p>
+                                <p className="text-lg text-violet-700/80 flex flex-col">
+                                    <a
+                                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.address)}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="hover:underline hover:text-blue-700 transition"
+                                        title="View on Google Maps"
+                                    >
+                                        {place.address}
+                                    </a>
+                                <label htmlFor="" className="text-sm  text-neutral-500">Click to View on Google Map</label>
+                                </p>
                             </div>
 
                             {/* Image Gallery */}
@@ -154,6 +165,21 @@ const HotelPage = () => {
                                                     <span className="text-blue-700 font-semibold">${place.price}</span>/night
                                                 </p>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div className="backdrop-blur-sm bg-white/90 p-4 rounded-xl border border-blue-100 mt-4">
+                                        <h2 className="text-xl sm:text-2xl font-semibold text-blue-900 mb-3">Location Map</h2>
+                                        <div className="w-full h-64 rounded-lg overflow-hidden shadow">
+                                            <iframe
+                                                title="Google Map"
+                                                width="100%"
+                                                height="100%"
+                                                style={{ border: 0 }}
+                                                loading="lazy"
+                                                allowFullScreen
+                                                referrerPolicy="no-referrer-when-downgrade"
+                                                src={`https://www.google.com/maps?q=${encodeURIComponent(place.address)}&output=embed`}
+                                            ></iframe>
                                         </div>
                                     </div>
 

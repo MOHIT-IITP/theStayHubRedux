@@ -25,7 +25,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <div className="overflow-hidden mt-15 min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200">
+    <div className="overflow-hidden pt-15 min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200">
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Layout />}>

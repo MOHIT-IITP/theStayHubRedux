@@ -10,7 +10,8 @@ export default function Navbar() {
       bg-white/10 backdrop-blur-md  rounded-b-2xl border-b border-violet-100
       fixed w-full top-0 z-50">
       {/* Left section: Logo */}
-      <Link to={"/"} className="flex items-center gap-2 font-bold hover:scale-105 transition">
+      <div>
+<Link to={"/landing"} className="flex items-center gap-2 font-bold hover:scale-105 transition">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -35,9 +36,13 @@ export default function Navbar() {
           TheStay<span className="text-violet-600">Hub</span>
         </span>
       </Link>
-
-            {/* Right section: Profile */}
-            <Link
+      </div>
+      
+      <div className="flex items-center gap-6">
+<Link to={"/"} className="text-lg font-bold text-violet-800 hover:text-violet-600 transition">
+      Explore Hotels
+      </Link>
+      <Link
                 to={"/profile"}
                 className="flex items-center gap-3 py-2 px-5 rounded-full border border-violet-200
                 bg-gradient-to-r from-blue-100/70 via-white/60 to-violet-100/70
@@ -69,6 +74,11 @@ export default function Navbar() {
                     </span>
                 )}
             </Link>
+      </div>
+      
+
+            {/* Right section: Profile */}
+            
         </header>
     );
 }

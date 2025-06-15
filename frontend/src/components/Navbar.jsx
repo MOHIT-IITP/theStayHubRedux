@@ -7,7 +7,7 @@ export default function Navbar() {
 
   return (
     <header className="flex overflow-x-hidden justify-between items-center flex-wrap px-6 py-4
-      bg-white/60 backdrop-blur-md  rounded-b-2xl border-b border-violet-100
+      bg-white/10 backdrop-blur-md  rounded-b-2xl border-b border-violet-100
       fixed w-full top-0 z-50">
       {/* Left section: Logo */}
       <Link to={"/"} className="flex items-center gap-2 font-bold hover:scale-105 transition">

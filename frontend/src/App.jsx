@@ -15,6 +15,7 @@ import EditPlace from "./components/EditPlace.jsx";
 import BookingReq from "./components/BookingReq.jsx";
 import HotelPage from "./pages/HotelPage.jsx";
 import BookingInfoPage from "./pages/BookingInfoPage.jsx";
+import LandingPage from "./pages/LandingPage.jsx";
 const App = () => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <div className="overflow-hidden min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200">
+    <div className="overflow-hidden mt-15 min-h-screen bg-gradient-to-br from-blue-100 via-violet-100 to-gray-200">
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Layout />}>
@@ -32,6 +33,10 @@ const App = () => {
           <Route
             path="/login"
             element={!user ? <LoginPage /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/landing"
+            element={<LandingPage/>}
           />
           <Route
             path="/signup"

@@ -16,8 +16,10 @@ const LandingPage = () => {
                 className="z-1 absolute top-0 left-1/2 -translate-x-1/2 w-[40vw] h-auto opacity-40 pointer-events-none animate-orangeBlob"
                 style={{ animation: 'orangeBlobMove 10s ease-in-out infinite alternate', filter: 'blur(60px)' }}
             />
-            <h1 className='text-6xl z-2 font-bold font-serif text-gray-800 mb-8'>
-                Your Hub for Beautiful <br /> Stays Around the World.
+            <h1
+                className=' hello text-6xl z-2 font-bold mb-8 text-gray-800'
+            >
+                Your Hub for <span className='text-7xl text-violet-700'>Beautiful</span>  <br /> <span className='text-4xl text-blue-700'>Stays</span>  Around the World.
             </h1>
             <Link to="/">
                 <button className='px-6 z-2 py-3 bg-violet-600 text-white rounded-2xl shadow-md hover:bg-blue-700 transition-colors font-semibold font-sans'>
